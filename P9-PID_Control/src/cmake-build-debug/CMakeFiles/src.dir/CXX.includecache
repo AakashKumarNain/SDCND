@@ -1,0 +1,82 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nain/Pictures/Personal/PID Controller/CarND-PID-Control-Project/src/PID.cpp
+PID.h
+/home/nain/Pictures/Personal/PID Controller/CarND-PID-Control-Project/src/PID.h
+
+/home/nain/Pictures/Personal/PID Controller/CarND-PID-Control-Project/src/PID.h
+
+/home/nain/Pictures/Personal/PID Controller/CarND-PID-Control-Project/src/json.hpp
+algorithm
+-
+array
+-
+cassert
+-
+cctype
+-
+ciso646
+-
+cmath
+-
+cstddef
+-
+cstdint
+-
+cstdlib
+-
+cstring
+-
+forward_list
+-
+functional
+-
+initializer_list
+-
+iomanip
+-
+iostream
+-
+iterator
+-
+limits
+-
+locale
+-
+map
+-
+memory
+-
+numeric
+-
+sstream
+-
+stdexcept
+-
+string
+-
+type_traits
+-
+utility
+-
+vector
+-
+
+/home/nain/Pictures/Personal/PID Controller/CarND-PID-Control-Project/src/main.cpp
+uWS/uWS.h
+-
+iostream
+-
+json.hpp
+/home/nain/Pictures/Personal/PID Controller/CarND-PID-Control-Project/src/json.hpp
+PID.h
+/home/nain/Pictures/Personal/PID Controller/CarND-PID-Control-Project/src/PID.h
+math.h
+-
+
