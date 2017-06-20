@@ -94,6 +94,9 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
+          double delta = j[1]["steering_angle"];
+          double a = j[1]["throttle"];
+
 
           // convert to car centered coordinates
           vector<double> temp_ptsx;
@@ -132,7 +135,20 @@ int main() {
 
           // in the car centered coordinate, we have a new state:
           Eigen::VectorXd new_state(6);
-          new_state << 0.0, 0.0, 0.0, v, cte, epsi;
+
+          //Introduce latency
+          double delay_t = 0.025;
+          double delay_x = 0 + v * cos(0) * delay_t;
+		  double delay_y = 0 + v * sin(0) * delay_t;
+		  double delay_psi = 0 + v/2.67 * (-delta) * delay_t;
+		  double delay_v = v + a * delay_t;
+
+		  double delay_cte = cte + v * sin(epsi)* delay_cte;
+          double delay_epsi = epsi + delay_psi;
+
+
+//          new_state << 0.0, 0.0, 0.0, v, cte, epsi;
+          new_state << delay_x, delay_y, delay_psi, delay_v, delay_cte, delay_epsi;
 
           // run solver to get the next state and the value of the actuators
           vector<double> next_and_actuators = mpc.Solve(new_state, coeffs);
@@ -153,7 +169,7 @@ int main() {
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
-          msgJson["steering_angle"] = -steer_value;
+          msgJson["steering_angle"] = -steer_value/deg2rad(25);
           msgJson["throttle"] = throttle_value;
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
@@ -226,3 +242,16 @@ int main() {
   }
   h.run();
 }
+
+
+
+// delay_x = 0 + v * cos(0) * delay_t
+// delay_y = 0 + v * sin(0) * delay_t
+// delay_psi = 0 + v/Lf * (-delta) * delay_t  //But we don't have delat yet. Or do we?
+// delay_v = v + a * delay_t //Same for a. We don't have it yet
+
+// delay_cte = cte + v * sin(epsi)* delay_t
+// delay_epsi = epsi + delay_psi
+
+
+// new_state << delay_x, delay_y, delay_psi, delay_v, delay_cte, delay_epsi
